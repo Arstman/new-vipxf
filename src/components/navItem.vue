@@ -1,29 +1,36 @@
 <template>
-  <q-item clickable tag="a" to="/" exact>
+  <q-item clickable tag="a" :to="{ name: item.name }" exact>
     <q-item-section avatar>
-      <q-icon name="home" />
+      <q-icon :name="iconName" />
     </q-item-section>
     <q-item-section>
-      <q-item-label>Dashboard</q-item-label>
-      <q-item-label caption>控制中心</q-item-label>
+      <q-item-label>{{ item.meta.title }}</q-item-label>
+      <q-item-label caption>{{ item.meta.title }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
 
 <script>
 export default {
-  name: 'navItem',
+  name: "navItem",
   props: {
     item: {
-      type: object,
+      type: Object,
       required: true
     }
   },
-  data () {
-    return {}
+  data() {
+    return {};
+  },
+  computed: {
+    toPath: function() {
+      return { name: this.item.name };
+    },
+    iconName: function() {
+      return this.item.meta.icon;
+    }
   }
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>

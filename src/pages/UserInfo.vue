@@ -1,13 +1,20 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <div><p>what can</p></div>
+    <div>
+      <p>小洲村--{{ menu_list }}</p>
+    </div>
   </q-page>
 </template>
 
 <script>
 export default {
-  name: "UserInfo"
+  name: "UserInfo",
+  data() {
+    return {
+      menu_list: this.$router.options.routes[0].children[0].meta.icon
+    };
+  }
 };
 </script>
 

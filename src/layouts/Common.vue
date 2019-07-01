@@ -23,24 +23,8 @@
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" to="/" exact>
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Dashboard</q-item-label>
-            <q-item-label caption>控制中心</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" :to="{ name: 'user-info' }" exact>
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>UserInfo</q-item-label>
-            <q-item-label caption>用户资料信息</q-item-label>
-          </q-item-section>
-        </q-item>
+        <navItem v-for="menu of menu_list" v-bind:key="menu.name" :item="menu">
+        </navItem>
       </q-list>
     </q-drawer>
 
@@ -52,16 +36,32 @@
 
 <script>
 import { openURL } from "quasar";
+import navItem from "components/navItem.vue";
 
 export default {
-  name: "MyLayout",
+  name: "CommonLayout",
+  components: {
+    navItem
+  },
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      menu_list: []
     };
   },
   methods: {
     openURL
+  },
+  created() {
+    this.$axios.get(
+        "https://p8890.12cent.cn/mock/5d18a0b1366a822bc7439a9f/vipxf/get_acc_routes"
+      )
+      .then(response => {
+        this.menu_list = this.menu_list.concat(response.data.children);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
